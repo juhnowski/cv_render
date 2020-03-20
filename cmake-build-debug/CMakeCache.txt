@@ -14,6 +14,27 @@
 # EXTERNAL cache entries
 ########################
 
+//Path to a library.
+AVCODEC_LIB:FILEPATH=/usr/local/lib/libavcodec.so.58
+
+//Path to a library.
+AVDEVICE_LIB:FILEPATH=/usr/local/lib/libswscale.so.5
+
+//Path to a library.
+AVFILTER_LIB:FILEPATH=AVFILTER_LIB-NOTFOUND
+
+//Path to a library.
+AVFORMAT_LIB:FILEPATH=/usr/local/lib/libavcodec.so.58
+
+//Path to a library.
+AVUTIL_LIB:FILEPATH=/usr/local/lib/libavformat.so.58
+
+//Path to a library.
+AV_LIB:FILEPATH=/usr/local/lib/libswscale.so.5
+
+//Path to a library.
+CJSON_LIB:FILEPATH=CJSON_LIB-NOTFOUND
+
 //Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
 
@@ -219,6 +240,12 @@ ProcessorCount_cmd_nproc:FILEPATH=/usr/bin/nproc
 
 //Path to a program.
 ProcessorCount_cmd_sysctl:FILEPATH=/sbin/sysctl
+
+//Path to a library.
+SWSCALE_LIB:FILEPATH=/usr/local/lib/libswscale.so.5
+
+//Path to a library.
+_LIB:FILEPATH=_LIB-NOTFOUND
 
 //Value Computed by CMake
 video_BINARY_DIR:STATIC=/home/ilya/CLionProjects/video/cmake-build-debug

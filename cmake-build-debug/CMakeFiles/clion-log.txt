@@ -1,4 +1,8 @@
 /home/ilya/clion-2019.3.5/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/ilya/CLionProjects/video
--- Configuring done
--- Generating done
--- Build files have been written to: /home/ilya/CLionProjects/video/cmake-build-debug
+CMake Error: The following variables are used in this project, but they are set to NOTFOUND.
+Please set them or make sure they are set and tested correctly in the CMake files:
+AVFILTER_LIB
+    linked by target "video" in directory /home/ilya/CLionProjects/video
+
+-- Configuring incomplete, errors occurred!
+See also "/home/ilya/CLionProjects/video/cmake-build-debug/CMakeFiles/CMakeOutput.log".

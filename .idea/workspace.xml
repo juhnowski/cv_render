@@ -11,7 +11,14 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5962c11b-ce3f-4bdc-9c70-a70ceaa82bcd" name="Default Changelist" comment="" />
+    <list default="true" id="5962c11b-ce3f-4bdc-9c70-a70ceaa82bcd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Progress/1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/video.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/video.dir/main.cpp.o" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +28,11 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1ZLSwBVmUoa8iVWxBHZWyRvgE2E" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -48,7 +59,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1584617116996</updated>
-      <workItem from="1584617118219" duration="6111000" />
+      <workItem from="1584617118219" duration="7344000" />
+      <workItem from="1584695638189" duration="7383000" />
     </task>
     <servers />
   </component>
@@ -72,5 +84,9 @@
       <screen x="1366" y="0" width="1600" height="900" />
     </state>
     <state width="1489" height="237" key="GridCell.Tab.0.right/1366.0.1600.900/0.132.1366.768@1366.0.1600.900" timestamp="1584620014903" />
+    <state x="1859" y="277" key="com.intellij.ide.util.TipDialog" timestamp="1584695638353">
+      <screen x="1366" y="0" width="1600" height="900" />
+    </state>
+    <state x="1859" y="277" key="com.intellij.ide.util.TipDialog/1366.0.1600.900/0.132.1366.768@1366.0.1600.900" timestamp="1584695638353" />
   </component>
 </project>
