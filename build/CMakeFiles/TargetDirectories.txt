@@ -1,0 +1,3 @@
+/home/natasha/cv_render/build/CMakeFiles/rebuild_cache.dir
+/home/natasha/cv_render/build/CMakeFiles/simple_opencv_streaming.dir
+/home/natasha/cv_render/build/CMakeFiles/edit_cache.dir

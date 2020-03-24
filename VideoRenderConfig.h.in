@@ -1,0 +1,2 @@
+#define VideoRender_VERSION_MAJOR @VideoRender_VERSION_MAJOR@
+#define VideoRender_VERSION_MINOR @VideoRender_VERSION_MINOR@

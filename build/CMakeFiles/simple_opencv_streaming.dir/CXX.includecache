@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/natasha/cv_render/main.cpp
+iostream
+-
+vector
+-
+opencv2/opencv.hpp
+/home/natasha/cv_render/opencv2/opencv.hpp
+opencv2/highgui.hpp
+/home/natasha/cv_render/opencv2/highgui.hpp
+opencv2/video.hpp
+/home/natasha/cv_render/opencv2/video.hpp
+libavformat/avformat.h
+-
+libavcodec/avcodec.h
+-
+libavutil/imgutils.h
+-
+libswscale/swscale.h
+-
+
