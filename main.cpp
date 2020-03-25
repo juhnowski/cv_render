@@ -24,7 +24,7 @@ VideoCapture get_input_stream() {
 
     setenv("OPENCV_FFMPEG_CAPTURE_OPTIONS", "protocol_whitelist;file,rtp,udp", 1);
 
-    VideoCapture cap("test.sdp", cv::CAP_FFMPEG);
+    VideoCapture cap("test_2.sdp", cv::CAP_FFMPEG);
 
     if(!cap.isOpened()){
         cout << "Error opening rtp://127.0.0.1:1234";
