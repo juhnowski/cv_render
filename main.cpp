@@ -180,6 +180,7 @@ int main() {
     AVCodecContext *out_codec_ctx = nullptr;
 
     initialize_avformat_context(ofmt_ctx, "flv");
+    ofmt_ctx->protocol_whitelist = "file,udp,rtp";
     initialize_io_context(ofmt_ctx, output);
 
     out_codec = avcodec_find_encoder(AV_CODEC_ID_H264);

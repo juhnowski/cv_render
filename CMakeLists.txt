@@ -35,3 +35,5 @@ add_executable(simple_opencv_streaming main.cpp)
 
 # streamer
 target_link_libraries(simple_opencv_streaming ${OpenCV_LIBS} ${AVCODEC_LIBRARY} ${AVFORMAT_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY} Qt5::Core)
+
+configure_file(test.sdp test.sdp COPYONLY)
