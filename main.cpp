@@ -221,6 +221,7 @@ int main(int argc,char* argv[]) {
 
     do {
         cap >> image;
+
         const int stride[] = {static_cast<int>(image.step[0])};
         sws_scale(swsctx, &image.data, stride, 0, image.rows, frame->data, frame->linesize);
         frame->pts += av_rescale_q(1, out_codec_ctx->time_base, out_stream->time_base);
