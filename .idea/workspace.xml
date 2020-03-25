@@ -13,7 +13,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5962c11b-ce3f-4bdc-9c70-a70ceaa82bcd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +70,7 @@
       <updated>1584617116996</updated>
       <workItem from="1584617118219" duration="7344000" />
       <workItem from="1584695638189" duration="7383000" />
-      <workItem from="1585124246466" duration="6669000" />
+      <workItem from="1585124246466" duration="21049000" />
     </task>
     <task id="LOCAL-00001" summary="video work">
       <created>1585128028607</created>
@@ -94,7 +93,21 @@
       <option name="project" value="LOCAL" />
       <updated>1585129574767</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="replace video and audio ports parameter with sdp file">
+      <created>1585131112944</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1585131112944</updated>
+    </task>
+    <task id="LOCAL-00005" summary="pre-relies">
+      <created>1585155505172</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1585155505172</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -104,53 +117,55 @@
     <MESSAGE value="video work" />
     <MESSAGE value="audio not work" />
     <MESSAGE value="add *_2 sripts for video+audio rtp stream" />
-    <option name="LAST_COMMIT_MESSAGE" value="add *_2 sripts for video+audio rtp stream" />
+    <MESSAGE value="replace video and audio ports parameter with sdp file" />
+    <MESSAGE value="pre-relies" />
+    <option name="LAST_COMMIT_MESSAGE" value="pre-relies" />
   </component>
   <component name="WindowStateProjectService">
     <state x="120" y="71" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585130886015">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
     <state x="120" y="71" key="#com.intellij.execution.impl.EditConfigurationsDialog/44.27.1236.773@44.27.1236.773" timestamp="1585130886015" />
-    <state x="227" y="27" width="860" height="773" key="CommitChangelistDialog2" timestamp="1585129574401">
+    <state x="227" y="27" width="860" height="773" key="CommitChangelistDialog2" timestamp="1585155504358">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
-    <state x="227" y="27" width="860" height="773" key="CommitChangelistDialog2/44.27.1236.773@44.27.1236.773" timestamp="1585129574401" />
-    <state width="1190" height="118" key="GridCell.Tab.0.bottom" timestamp="1585131042614">
+    <state x="227" y="27" width="860" height="773" key="CommitChangelistDialog2/44.27.1236.773@44.27.1236.773" timestamp="1585155504358" />
+    <state width="1190" height="202" key="GridCell.Tab.0.bottom" timestamp="1585159827826">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
     <state width="1489" height="237" key="GridCell.Tab.0.bottom/1366.0.1600.900/0.132.1366.768@1366.0.1600.900" timestamp="1584620014903" />
-    <state width="1190" height="118" key="GridCell.Tab.0.bottom/44.27.1236.773@44.27.1236.773" timestamp="1585131042614" />
-    <state width="1190" height="118" key="GridCell.Tab.0.center" timestamp="1585131042614">
+    <state width="1190" height="202" key="GridCell.Tab.0.bottom/44.27.1236.773@44.27.1236.773" timestamp="1585159827826" />
+    <state width="1190" height="202" key="GridCell.Tab.0.center" timestamp="1585159827825">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
     <state width="1489" height="237" key="GridCell.Tab.0.center/1366.0.1600.900/0.132.1366.768@1366.0.1600.900" timestamp="1584620014903" />
-    <state width="1190" height="118" key="GridCell.Tab.0.center/44.27.1236.773@44.27.1236.773" timestamp="1585131042614" />
-    <state width="1190" height="118" key="GridCell.Tab.0.left" timestamp="1585131042614">
+    <state width="1190" height="202" key="GridCell.Tab.0.center/44.27.1236.773@44.27.1236.773" timestamp="1585159827825" />
+    <state width="1190" height="202" key="GridCell.Tab.0.left" timestamp="1585159827824">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
     <state width="1489" height="237" key="GridCell.Tab.0.left/1366.0.1600.900/0.132.1366.768@1366.0.1600.900" timestamp="1584620014903" />
-    <state width="1190" height="118" key="GridCell.Tab.0.left/44.27.1236.773@44.27.1236.773" timestamp="1585131042614" />
-    <state width="1190" height="118" key="GridCell.Tab.0.right" timestamp="1585131042614">
+    <state width="1190" height="202" key="GridCell.Tab.0.left/44.27.1236.773@44.27.1236.773" timestamp="1585159827824" />
+    <state width="1190" height="202" key="GridCell.Tab.0.right" timestamp="1585159827825">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
     <state width="1489" height="237" key="GridCell.Tab.0.right/1366.0.1600.900/0.132.1366.768@1366.0.1600.900" timestamp="1584620014903" />
-    <state width="1190" height="118" key="GridCell.Tab.0.right/44.27.1236.773@44.27.1236.773" timestamp="1585131042614" />
-    <state width="1190" height="118" key="GridCell.Tab.1.bottom" timestamp="1585131042615">
+    <state width="1190" height="202" key="GridCell.Tab.0.right/44.27.1236.773@44.27.1236.773" timestamp="1585159827825" />
+    <state width="1190" height="202" key="GridCell.Tab.1.bottom" timestamp="1585159827827">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
-    <state width="1190" height="118" key="GridCell.Tab.1.bottom/44.27.1236.773@44.27.1236.773" timestamp="1585131042615" />
-    <state width="1190" height="118" key="GridCell.Tab.1.center" timestamp="1585131042615">
+    <state width="1190" height="202" key="GridCell.Tab.1.bottom/44.27.1236.773@44.27.1236.773" timestamp="1585159827827" />
+    <state width="1190" height="202" key="GridCell.Tab.1.center" timestamp="1585159827826">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
-    <state width="1190" height="118" key="GridCell.Tab.1.center/44.27.1236.773@44.27.1236.773" timestamp="1585131042615" />
-    <state width="1190" height="118" key="GridCell.Tab.1.left" timestamp="1585131042615">
+    <state width="1190" height="202" key="GridCell.Tab.1.center/44.27.1236.773@44.27.1236.773" timestamp="1585159827826" />
+    <state width="1190" height="202" key="GridCell.Tab.1.left" timestamp="1585159827826">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
-    <state width="1190" height="118" key="GridCell.Tab.1.left/44.27.1236.773@44.27.1236.773" timestamp="1585131042615" />
-    <state width="1190" height="118" key="GridCell.Tab.1.right" timestamp="1585131042615">
+    <state width="1190" height="202" key="GridCell.Tab.1.left/44.27.1236.773@44.27.1236.773" timestamp="1585159827826" />
+    <state width="1190" height="202" key="GridCell.Tab.1.right" timestamp="1585159827827">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
-    <state width="1190" height="118" key="GridCell.Tab.1.right/44.27.1236.773@44.27.1236.773" timestamp="1585131042615" />
+    <state width="1190" height="202" key="GridCell.Tab.1.right/44.27.1236.773@44.27.1236.773" timestamp="1585159827827" />
     <state width="1190" height="228" key="GridCell.Tab.2.bottom" timestamp="1585127091834">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
@@ -167,10 +182,10 @@
       <screen x="44" y="27" width="1236" height="773" />
     </state>
     <state width="1190" height="228" key="GridCell.Tab.2.right/44.27.1236.773@44.27.1236.773" timestamp="1585127091834" />
-    <state x="257" y="149" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1585129576940">
+    <state x="257" y="149" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1585155507792">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
-    <state x="257" y="149" width="800" height="535" key="Vcs.Push.Dialog.v2/44.27.1236.773@44.27.1236.773" timestamp="1585129576940" />
+    <state x="257" y="149" width="800" height="535" key="Vcs.Push.Dialog.v2/44.27.1236.773@44.27.1236.773" timestamp="1585155507792" />
     <state x="425" y="265" key="com.intellij.ide.util.TipDialog" timestamp="1585124252201">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
@@ -180,16 +195,5 @@
       <screen x="44" y="27" width="1236" height="773" />
     </state>
     <state x="44" y="27" width="707" height="773" key="find.popup/44.27.1236.773@44.27.1236.773" timestamp="1585127135394" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>192</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
