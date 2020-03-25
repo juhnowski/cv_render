@@ -35,30 +35,30 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/ilya/clion-2019.3.5/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/ilya/clion-2019.3.4/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/ilya/clion-2019.3.5/bin/cmake/linux/bin/cmake -E remove -f
+RM = /home/ilya/clion-2019.3.4/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ilya/CLionProjects/video
+CMAKE_SOURCE_DIR = /home/ilya/cv_render
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ilya/CLionProjects/video/cmake-build-debug
+CMAKE_BINARY_DIR = /home/ilya/cv_render/cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/video.dir/all
+all: CMakeFiles/simple_opencv_streaming.dir/all
 
 .PHONY : all
 
 # The main recursive "clean" target.
-clean: CMakeFiles/video.dir/clean
+clean: CMakeFiles/simple_opencv_streaming.dir/clean
 
 .PHONY : clean
 
@@ -68,32 +68,39 @@ preinstall:
 .PHONY : preinstall
 
 #=============================================================================
-# Target rules for target CMakeFiles/video.dir
+# Target rules for target CMakeFiles/simple_opencv_streaming.dir
 
 # All Build rule for target.
-CMakeFiles/video.dir/all:
-	$(MAKE) -f CMakeFiles/video.dir/build.make CMakeFiles/video.dir/depend
-	$(MAKE) -f CMakeFiles/video.dir/build.make CMakeFiles/video.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ilya/CLionProjects/video/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target video"
-.PHONY : CMakeFiles/video.dir/all
+CMakeFiles/simple_opencv_streaming.dir/all:
+	$(MAKE) -f CMakeFiles/simple_opencv_streaming.dir/build.make CMakeFiles/simple_opencv_streaming.dir/depend
+	$(MAKE) -f CMakeFiles/simple_opencv_streaming.dir/build.make CMakeFiles/simple_opencv_streaming.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ilya/cv_render/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target simple_opencv_streaming"
+.PHONY : CMakeFiles/simple_opencv_streaming.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/video.dir/rule:
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/CLionProjects/video/cmake-build-debug/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/video.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/CLionProjects/video/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/video.dir/rule
+CMakeFiles/simple_opencv_streaming.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/cv_render/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/simple_opencv_streaming.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/cv_render/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/simple_opencv_streaming.dir/rule
 
 # Convenience name for target.
-video: CMakeFiles/video.dir/rule
+simple_opencv_streaming: CMakeFiles/simple_opencv_streaming.dir/rule
 
-.PHONY : video
+.PHONY : simple_opencv_streaming
 
 # clean rule for target.
-CMakeFiles/video.dir/clean:
-	$(MAKE) -f CMakeFiles/video.dir/build.make CMakeFiles/video.dir/clean
-.PHONY : CMakeFiles/video.dir/clean
+CMakeFiles/simple_opencv_streaming.dir/clean:
+	$(MAKE) -f CMakeFiles/simple_opencv_streaming.dir/build.make CMakeFiles/simple_opencv_streaming.dir/clean
+.PHONY : CMakeFiles/simple_opencv_streaming.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
+
+# Special rule to run CMake to check the build system integrity.
+# No rule that depends on this can have commands that come from listfiles
+# because they might be regenerated.
+cmake_check_build_system:
+	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+.PHONY : cmake_check_build_system
 

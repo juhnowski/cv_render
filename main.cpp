@@ -57,7 +57,7 @@ void initialize_io_context(AVFormatContext *&fctx, const char *output)
         int ret = avio_open2(&fctx->pb, output, AVIO_FLAG_WRITE, nullptr, nullptr);
         if (ret < 0)
         {
-            std::cout << "Could not open output IO context!" << std::endl;
+            std::cout << "initialize_io_context: Could not open output IO context!" << std::endl;
             exit(1);
         }
     }
@@ -155,11 +155,22 @@ void write_frame(AVCodecContext *codec_ctx, AVFormatContext *fmt_ctx, AVFrame *f
     av_packet_unref(&pkt);
 }
 
+//Test program arguments: ./simple_opencv_streaming 1234 1235  rtmp://localhost/live/stream
+int main(int argc,char* argv[]) {
 
-int main() {
+    if (argc != 4) {
+        cout << "Usage: ./simple_opencv_streaming <video_port> <audio_port> <rtmp_url>" << endl;
+        return 0;
+    }
 
     std::string h264profile = "high444";
-    std::string outputServer = "rtmp://localhost/live/stream";
+    std::string inputVideo = argv[1];
+    std::string inputAudio = argv[2];
+    std::string outputServer = argv[3];
+
+    cout << "Set video port: " << inputVideo << endl;
+    cout << "Set audio port: " << inputAudio << endl;
+    cout << "Set rtmp url: " << outputServer  << endl;
 
     av_log_set_level(AV_LOG_DEBUG);
 
@@ -180,7 +191,7 @@ int main() {
     AVCodecContext *out_codec_ctx = nullptr;
 
     initialize_avformat_context(ofmt_ctx, "flv");
-    ofmt_ctx->protocol_whitelist = "file,udp,rtp";
+    ofmt_ctx->protocol_whitelist = "file,tcp,rtmp,udp,rtp";
     initialize_io_context(ofmt_ctx, output);
 
     out_codec = avcodec_find_encoder(AV_CODEC_ID_H264);

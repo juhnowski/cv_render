@@ -13,10 +13,6 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}  -std=c++11 -Wall -O0 -fno-o
 
 
 find_package(OpenCV REQUIRED)
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Test Concurrent)
-
-get_target_property(QtCore_location Qt5::Core /usr/lib/x86_64-linux-gnu/)
-
 
 include(CMakeToolsHelpers OPTIONAL)
 
@@ -34,6 +30,6 @@ MESSAGE(${AVFORMAT_LIBRARY})
 add_executable(simple_opencv_streaming main.cpp)
 
 # streamer
-target_link_libraries(simple_opencv_streaming ${OpenCV_LIBS} ${AVCODEC_LIBRARY} ${AVFORMAT_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY} Qt5::Core)
+target_link_libraries(simple_opencv_streaming ${OpenCV_LIBS} ${AVCODEC_LIBRARY} ${AVFORMAT_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY})
 
 configure_file(test.sdp test.sdp COPYONLY)

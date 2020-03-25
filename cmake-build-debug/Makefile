@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/ilya/clion-2019.3.5/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/ilya/clion-2019.3.4/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/ilya/clion-2019.3.5/bin/cmake/linux/bin/cmake -E remove -f
+RM = /home/ilya/clion-2019.3.4/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ilya/CLionProjects/video
+CMAKE_SOURCE_DIR = /home/ilya/cv_render
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ilya/CLionProjects/video/cmake-build-debug
+CMAKE_BINARY_DIR = /home/ilya/cv_render/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/ilya/CLionProjects/video/cmake-build-debug
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/ilya/clion-2019.3.5/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/ilya/clion-2019.3.4/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/ilya/clion-2019.3.5/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/ilya/clion-2019.3.4/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -79,10 +79,10 @@ edit_cache/fast: edit_cache
 .PHONY : edit_cache/fast
 
 # The main all target
-all:
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/CLionProjects/video/cmake-build-debug/CMakeFiles /home/ilya/CLionProjects/video/cmake-build-debug/CMakeFiles/progress.marks
+all: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/cv_render/cmake-build-debug/CMakeFiles /home/ilya/cv_render/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/CLionProjects/video/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/cv_render/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -105,18 +105,23 @@ preinstall/fast:
 	$(MAKE) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall/fast
 
+# clear depends
+depend:
+	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+.PHONY : depend
+
 #=============================================================================
-# Target rules for targets named video
+# Target rules for targets named simple_opencv_streaming
 
 # Build rule for target.
-video:
-	$(MAKE) -f CMakeFiles/Makefile2 video
-.PHONY : video
+simple_opencv_streaming: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 simple_opencv_streaming
+.PHONY : simple_opencv_streaming
 
 # fast build rule for target.
-video/fast:
-	$(MAKE) -f CMakeFiles/video.dir/build.make CMakeFiles/video.dir/build
-.PHONY : video/fast
+simple_opencv_streaming/fast:
+	$(MAKE) -f CMakeFiles/simple_opencv_streaming.dir/build.make CMakeFiles/simple_opencv_streaming.dir/build
+.PHONY : simple_opencv_streaming/fast
 
 main.o: main.cpp.o
 
@@ -124,7 +129,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/video.dir/build.make CMakeFiles/video.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/simple_opencv_streaming.dir/build.make CMakeFiles/simple_opencv_streaming.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -133,7 +138,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/video.dir/build.make CMakeFiles/video.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/simple_opencv_streaming.dir/build.make CMakeFiles/simple_opencv_streaming.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -142,7 +147,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/video.dir/build.make CMakeFiles/video.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/simple_opencv_streaming.dir/build.make CMakeFiles/simple_opencv_streaming.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -150,8 +155,9 @@ help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
+	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... video"
+	@echo "... simple_opencv_streaming"
 	@echo "... edit_cache"
 	@echo "... main.o"
 	@echo "... main.i"
@@ -162,4 +168,11 @@ help:
 
 #=============================================================================
 # Special targets to cleanup operation of make.
+
+# Special rule to run CMake to check the build system integrity.
+# No rule that depends on this can have commands that come from listfiles
+# because they might be regenerated.
+cmake_check_build_system:
+	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+.PHONY : cmake_check_build_system
 
