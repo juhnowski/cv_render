@@ -18,3 +18,13 @@ $ cd build
 $ cmake -DCMAKE_BUILD_TYPE=Debug ..
 $ make
 ```
+
+Run
+1. Start test stream:
+```
+server_2.sh
+```
+1. Run program with parameters:
+```
+./simple_opencv_streaming 1234 1235 rtmp://gpu3.view.me/live/test890
+```

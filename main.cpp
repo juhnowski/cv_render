@@ -20,14 +20,14 @@ int height = 0;
 int fps = 30;
 int bitrate = 300000;
 
-VideoCapture get_input_stream() {
+VideoCapture get_input_stream(std::string *inputSdp ) {
 
     setenv("OPENCV_FFMPEG_CAPTURE_OPTIONS", "protocol_whitelist;file,rtp,udp", 1);
 
-    VideoCapture cap("test_2.sdp", cv::CAP_FFMPEG);
+    VideoCapture cap(*inputSdp, cv::CAP_FFMPEG);
 
     if(!cap.isOpened()){
-        cout << "Error opening rtp://127.0.0.1:1234";
+        cout << "Error opening "<< *inputSdp << endl;
         exit(1);
     }
 
@@ -155,21 +155,19 @@ void write_frame(AVCodecContext *codec_ctx, AVFormatContext *fmt_ctx, AVFrame *f
     av_packet_unref(&pkt);
 }
 
-//Test program arguments: ./simple_opencv_streaming 1234 1235  rtmp://localhost/live/stream
+//Test program arguments: ./simple_opencv_streaming test_2.sdp rtmp://gpu3.view.me/live/test890
 int main(int argc,char* argv[]) {
 
-    if (argc != 4) {
-        cout << "Usage: ./simple_opencv_streaming <video_port> <audio_port> <rtmp_url>" << endl;
+    if (argc != 3) {
+        cout << "Usage: "<< argv[0]<<" <sdp_file> <rtmp_url>" << endl;
         return 0;
     }
 
     std::string h264profile = "high444";
-    std::string inputVideo = argv[1];
-    std::string inputAudio = argv[2];
-    std::string outputServer = argv[3];
+    std::string inputSdp = argv[1];
+    std::string outputServer = argv[2];
 
-    cout << "Set video port: " << inputVideo << endl;
-    cout << "Set audio port: " << inputAudio << endl;
+    cout << "Set sdp file: " << inputSdp << endl;
     cout << "Set rtmp url: " << outputServer  << endl;
 
     av_log_set_level(AV_LOG_DEBUG);
@@ -181,7 +179,7 @@ int main(int argc,char* argv[]) {
 
     const char *output = outputServer.c_str();
     int ret;
-    VideoCapture cap = get_input_stream();
+    VideoCapture cap = get_input_stream(&inputSdp);
 
     std::vector<uint8_t> imgbuf(height * width * 3 + 16);
     cv::Mat image(height, width, CV_8UC3, imgbuf.data(), width * 3);
