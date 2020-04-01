@@ -1,239 +1,266 @@
 #include <iostream>
 #include <vector>
-
-#include "opencv2/opencv.hpp"
-#include "opencv2/highgui.hpp"
-#include "opencv2/video.hpp"
-
+// FFmpeg
 extern "C" {
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
-#include <libavutil/imgutils.h>
+#include <libavutil/avutil.h>
+#include <libavutil/pixdesc.h>
 #include <libswscale/swscale.h>
 }
+// OpenCV
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui.hpp>
 
 using namespace std;
 using namespace cv;
 
-int width = 0;
-int height = 0;
-int fps = 30;
-int bitrate = 300000;
+static void logging(const char *fmt, ...);
+static void logging(const char *fmt, ...)
+{
+    va_list args;
+    fprintf( stderr, "LOG: " );
+    va_start( args, fmt );
+    vfprintf( stderr, fmt, args );
+    va_end( args );
+    fprintf( stderr, "\n" );
+}
 
-VideoCapture get_input_stream(std::string *inputSdp ) {
+int main(int argc, char* argv[])
+{
+    if (argc < 2) {
+        std::cout << "Usage: cv2ff <outfile>" << std::endl;
+        return 1;
+    }
+    const char* outfile = argv[3];
 
     setenv("OPENCV_FFMPEG_CAPTURE_OPTIONS", "protocol_whitelist;file,rtp,udp", 1);
 
-    VideoCapture cap(*inputSdp, cv::CAP_FFMPEG);
+    // initialize FFmpeg library
+    av_register_all();
+//  av_log_set_level(AV_LOG_DEBUG);
+    int ret;
 
-    if(!cap.isOpened()){
-        cout << "Error opening "<< *inputSdp << endl;
-        exit(1);
+    const int dst_width = 1280;
+    const int dst_height = 720;
+    const AVRational dst_fps = {30, 1};
+
+    // initialize audio
+//-----------------------------------------------------------------------------------------------
+    AVFormatContext *input_format_context = nullptr;
+    AVPacket packet;
+
+    AVCodec *pLocalCodec = NULL;
+    AVCodecParameters *pLocalCodecParameters =  NULL;
+
+    AVDictionary *d = NULL;
+    av_dict_set(&d, "protocol_whitelist", "file,udp,rtp", 0);
+
+    if ((ret = avformat_open_input(&input_format_context, argv[1], NULL, &d)) < 0) {
+        fprintf(stderr, "Could not open input file '%s'", argv[1]);
+        return 2;
     }
 
-    width = cap.get(CAP_PROP_FRAME_WIDTH);
-    height = cap.get(CAP_PROP_FRAME_HEIGHT);
-
-    cout << "Incoming width:" << width << endl;
-    cout << "Incoming height:" << height << endl;
-
-    return cap;
-}
-
-void initialize_avformat_context(AVFormatContext *&fctx, const char *format_name)
-{
-    int ret = avformat_alloc_output_context2(&fctx, nullptr, format_name, nullptr);
-    if (ret < 0)
-    {
-        std::cout << "Could not allocate output format context!" << std::endl;
-        exit(1);
+    if ((ret = avformat_find_stream_info(input_format_context, NULL)) < 0) {
+        fprintf(stderr, "Failed to retrieve input stream information");
+        return 2;
     }
-}
 
-void initialize_io_context(AVFormatContext *&fctx, const char *output)
-{
-    if (!(fctx->oformat->flags & AVFMT_NOFILE))
+
+    for (int i = 0; i < input_format_context->nb_streams; i++)
     {
-        int ret = avio_open2(&fctx->pb, output, AVIO_FLAG_WRITE, nullptr, nullptr);
-        if (ret < 0)
-        {
-            std::cout << "initialize_io_context: Could not open output IO context!" << std::endl;
-            exit(1);
+        pLocalCodecParameters = input_format_context->streams[i]->codecpar;
+        logging("AVStream->time_base before open coded %d/%d", input_format_context->streams[i]->time_base.num, input_format_context->streams[i]->time_base.den);
+        logging("AVStream->r_frame_rate before open coded %d/%d", input_format_context->streams[i]->r_frame_rate.num, input_format_context->streams[i]->r_frame_rate.den);
+        logging("AVStream->start_time %" PRId64, input_format_context->streams[i]->start_time);
+        logging("AVStream->duration %" PRId64, input_format_context->streams[i]->duration);
+
+        logging("finding the proper decoder (CODEC)");
+
+        pLocalCodec = avcodec_find_decoder(pLocalCodecParameters->codec_id);
+
+        if (pLocalCodec==NULL) {
+            logging("ERROR unsupported codec!");
+            return -1;
         }
+
+        logging("Audio Codec: %d channels, sample rate %d", pLocalCodecParameters->channels, pLocalCodecParameters->sample_rate);
+
+        // print its name, id and bitrate
+        logging("\tCodec %s ID %d bit_rate %lld", pLocalCodec->name, pLocalCodec->id, pLocalCodecParameters->bit_rate);
     }
-}
 
-
-void set_codec_params(AVFormatContext *&fctx, AVCodecContext *&codec_ctx)
-{
-    const AVRational dst_fps = {fps, 1};
-
-    codec_ctx->codec_tag = 0;
-    codec_ctx->codec_id = AV_CODEC_ID_H264;
-    codec_ctx->codec_type = AVMEDIA_TYPE_VIDEO;
-    codec_ctx->width = width;
-    codec_ctx->height = height;
-    codec_ctx->gop_size = 12;
-    codec_ctx->pix_fmt = AV_PIX_FMT_YUV420P;
-    codec_ctx->framerate = dst_fps;
-    codec_ctx->time_base = av_inv_q(dst_fps);
-    codec_ctx->bit_rate = bitrate;
-    if (fctx->oformat->flags & AVFMT_GLOBALHEADER)
+    AVCodecContext *pCodecContext = avcodec_alloc_context3(pLocalCodec);
+    if (!pCodecContext)
     {
-        codec_ctx->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+        logging("failed to allocated memory for AVCodecContext");
+        return -1;
     }
-}
 
-void initialize_codec_stream(AVStream *&stream, AVCodecContext *&codec_ctx, AVCodec *&codec, std::string codec_profile)
-{
-    int ret = avcodec_parameters_from_context(stream->codecpar, codec_ctx);
-    if (ret < 0)
+    if (avcodec_parameters_to_context(pCodecContext, pLocalCodecParameters) < 0)
     {
-        std::cout << "Could not initialize stream codec parameters!" << std::endl;
-        exit(1);
+        logging("failed to copy codec params to codec context");
+        return -1;
     }
 
-    AVDictionary *codec_options = nullptr;
-    av_dict_set(&codec_options, "profile", codec_profile.c_str(), 0);
-    av_dict_set(&codec_options, "preset", "superfast", 0);
-    av_dict_set(&codec_options, "tune", "zerolatency", 0);
+    if (avcodec_open2(pCodecContext, pLocalCodec, NULL) < 0)
+    {
+        logging("failed to open codec through avcodec_open2");
+        return -1;
+    }
+
+    AVFrame *pFrame = av_frame_alloc();
+    if (!pFrame)
+    {
+        logging("failed to allocated memory for AVFrame");
+        return -1;
+    }
+
+    AVPacket *pPacket = av_packet_alloc();
+    if (!pPacket)
+    {
+        logging("failed to allocated memory for AVPacket");
+        return -1;
+    }
+
+//------------------------------------------------------------------------------------------------
+    // initialize OpenCV capture as input frame generator
+
+    cv::VideoCapture cvcap(argv[2], cv::CAP_FFMPEG);
+    //cv::VideoCapture cvcap(argv[1]);
+    if (!cvcap.isOpened()) {
+        std::cerr << "fail to open cv::VideoCapture";
+        return 2;
+    }
+    cvcap.set(cv::CAP_PROP_FRAME_WIDTH, dst_width);
+    cvcap.set(cv::CAP_PROP_FRAME_HEIGHT, dst_height);
+
+    // allocate cv::Mat with extra bytes (required by AVFrame::data)
+    std::vector<uint8_t> imgbuf(dst_height * dst_width * 3 + 16);
+    cv::Mat image(dst_height, dst_width, CV_8UC3, imgbuf.data(), dst_width * 3);
+
+    // open output format context
+    AVFormatContext* outctx = nullptr;
+    ret = avformat_alloc_output_context2(&outctx, nullptr, "flv", nullptr);
+    outctx->protocol_whitelist = "file,tcp,rtmp,udp,rtp";
+    if (ret < 0) {
+        std::cerr << "fail to avformat_alloc_output_context2(" << outfile << "): ret=" << ret;
+        return 2;
+    }
+
+    // open output IO context
+    ret = avio_open2(&outctx->pb, outfile, AVIO_FLAG_WRITE, nullptr, nullptr);
+    if (ret < 0) {
+        std::cerr << "fail to avio_open2: ret=" << ret;
+        return 2;
+    }
+
+    // create new video stream
+    AVCodec* vcodec = avcodec_find_encoder(outctx->oformat->video_codec);
+    AVStream* vstrm = avformat_new_stream(outctx, vcodec);
+    if (!vstrm) {
+        std::cerr << "fail to avformat_new_stream";
+        return 2;
+    }
+    avcodec_get_context_defaults3(vstrm->codec, vcodec);
+    vstrm->codec->width = dst_width;
+    vstrm->codec->height = dst_height;
+    vstrm->codec->pix_fmt = vcodec->pix_fmts[0];
+    vstrm->codec->time_base = vstrm->time_base = av_inv_q(dst_fps);
+    vstrm->r_frame_rate = vstrm->avg_frame_rate = dst_fps;
+    if (outctx->oformat->flags & AVFMT_GLOBALHEADER)
+        vstrm->codec->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 
     // open video encoder
-    ret = avcodec_open2(codec_ctx, codec, &codec_options);
-    if (ret < 0)
-    {
-        std::cout << "Could not open video encoder!" << std::endl;
-        exit(1);
-    }
-}
-
-SwsContext *initialize_sample_scaler(AVCodecContext *codec_ctx, double width, double height)
-{
-    SwsContext *swsctx = sws_getContext(width, height, AV_PIX_FMT_BGR24, width, height, codec_ctx->pix_fmt, SWS_BICUBIC, nullptr, nullptr, nullptr);
-    if (!swsctx)
-    {
-        std::cout << "Could not initialize sample scaler!" << std::endl;
-        exit(1);
+    ret = avcodec_open2(vstrm->codec, vcodec, nullptr);
+    if (ret < 0) {
+        std::cerr << "fail to avcodec_open2: ret=" << ret;
+        return 2;
     }
 
-    return swsctx;
-}
+    std::cout
+            << "outfile: " << outfile << "\n"
+            << "format:  " << outctx->oformat->name << "\n"
+            << "vcodec:  " << vcodec->name << "\n"
+            << "size:    " << dst_width << 'x' << dst_height << "\n"
+            << "fps:     " << av_q2d(dst_fps) << "\n"
+            << "pixfmt:  " << av_get_pix_fmt_name(vstrm->codec->pix_fmt) << "\n"
+            << std::flush;
 
-AVFrame *allocate_frame_buffer(AVCodecContext *codec_ctx, double width, double height)
-{
-    AVFrame *frame = av_frame_alloc();
-
-    std::vector<uint8_t> framebuf(av_image_get_buffer_size(codec_ctx->pix_fmt, width, height, 1));
-    av_image_fill_arrays(frame->data, frame->linesize, framebuf.data(), codec_ctx->pix_fmt, width, height, 1);
-    frame->width = width;
-    frame->height = height;
-    frame->format = static_cast<int>(codec_ctx->pix_fmt);
-
-    return frame;
-}
-
-void write_frame(AVCodecContext *codec_ctx, AVFormatContext *fmt_ctx, AVFrame *frame)
-{
-    AVPacket pkt = {0};
-    av_init_packet(&pkt);
-
-    int ret = avcodec_send_frame(codec_ctx, frame);
-    if (ret < 0)
-    {
-        std::cout << "Error sending frame to codec context!" << std::endl;
-        exit(1);
+    // initialize sample scaler
+    SwsContext* swsctx = sws_getCachedContext(
+            nullptr, dst_width, dst_height, AV_PIX_FMT_BGR24,
+            dst_width, dst_height, vstrm->codec->pix_fmt, SWS_BICUBIC, nullptr, nullptr, nullptr);
+    if (!swsctx) {
+        std::cerr << "fail to sws_getCachedContext";
+        return 2;
     }
 
-    ret = avcodec_receive_packet(codec_ctx, &pkt);
-    if (ret < 0)
-    {
-        std::cout << "Error receiving packet from codec context!" << std::endl;
-        exit(1);
-    }
+    // allocate frame buffer for encoding
+    AVFrame* frame = av_frame_alloc();
+    std::vector<uint8_t> framebuf(avpicture_get_size(vstrm->codec->pix_fmt, dst_width, dst_height));
+    avpicture_fill(reinterpret_cast<AVPicture*>(frame), framebuf.data(), vstrm->codec->pix_fmt, dst_width, dst_height);
+    frame->width = dst_width;
+    frame->height = dst_height;
+    frame->format = static_cast<int>(vstrm->codec->pix_fmt);
 
-    av_interleaved_write_frame(fmt_ctx, &pkt);
-    av_packet_unref(&pkt);
-}
-
-//Test program arguments: ./simple_opencv_streaming test_2.sdp rtmp://gpu3.view.me/live/test890
-int main(int argc,char* argv[]) {
-
-    if (argc != 3) {
-        cout << "Usage: "<< argv[0]<<" <sdp_file> <rtmp_url>" << endl;
-        return 0;
-    }
-
-    std::string h264profile = "high444";
-    std::string inputSdp = argv[1];
-    std::string outputServer = argv[2];
-
-    cout << "Set sdp file: " << inputSdp << endl;
-    cout << "Set rtmp url: " << outputServer  << endl;
-
-    av_log_set_level(AV_LOG_DEBUG);
-
-#if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(58, 9, 100)
-    av_register_all();
-#endif
-    avformat_network_init();
-
-    const char *output = outputServer.c_str();
-    int ret;
-    VideoCapture cap = get_input_stream(&inputSdp);
-
-    std::vector<uint8_t> imgbuf(height * width * 3 + 16);
-    cv::Mat image(height, width, CV_8UC3, imgbuf.data(), width * 3);
-    AVFormatContext *ofmt_ctx = nullptr;
-    AVCodec *out_codec = nullptr;
-    AVStream *out_stream = nullptr;
-    AVCodecContext *out_codec_ctx = nullptr;
-
-    initialize_avformat_context(ofmt_ctx, "flv");
-    ofmt_ctx->protocol_whitelist = "file,tcp,rtmp,udp,rtp";
-    initialize_io_context(ofmt_ctx, output);
-
-    out_codec = avcodec_find_encoder(AV_CODEC_ID_H264);
-    out_stream = avformat_new_stream(ofmt_ctx, out_codec);
-    out_codec_ctx = avcodec_alloc_context3(out_codec);
-
-    set_codec_params(ofmt_ctx, out_codec_ctx);
-    initialize_codec_stream(out_stream, out_codec_ctx, out_codec, h264profile);
-
-    out_stream->codecpar->extradata = out_codec_ctx->extradata;
-    out_stream->codecpar->extradata_size = out_codec_ctx->extradata_size;
-
-    av_dump_format(ofmt_ctx, 0, output, 1);
-
-    auto *swsctx = initialize_sample_scaler(out_codec_ctx, width, height);
-    auto *frame = allocate_frame_buffer(out_codec_ctx, width, height);
-
-    int cur_size;
-    uint8_t *cur_ptr;
-
-    ret = avformat_write_header(ofmt_ctx, nullptr);
-    if (ret < 0)
-    {
-        std::cout << "Could not write header!" << std::endl;
-        exit(1);
-    }
-
+    // encoding loop
+    avformat_write_header(outctx, nullptr);
+    int64_t frame_pts = 0;
+    unsigned nb_frames = 0;
     bool end_of_stream = false;
-
+    int got_pkt = 0;
     do {
-        cap >> image;
+        if (!end_of_stream) {
+            // retrieve source image
+            cvcap >> image;
+            cv::imshow("press ESC to exit", image);
+            if (cv::waitKey(33) == 0x1b)
+                end_of_stream = true;
+        }
+        if (!end_of_stream) {
+            // convert cv::Mat(OpenCV) to AVFrame(FFmpeg)
+            const int stride[] = { static_cast<int>(image.step[0]) };
+            sws_scale(swsctx, &image.data, stride, 0, image.rows, frame->data, frame->linesize);
+            frame->pts = frame_pts++;
+        }
+        // encode video frame
+        AVPacket pkt;
+        pkt.data = nullptr;
+        pkt.size = 0;
+        av_init_packet(&pkt);
+        ret = avcodec_encode_video2(vstrm->codec, &pkt, end_of_stream ? nullptr : frame, &got_pkt);
+        if (ret < 0) {
+            std::cerr << "fail to avcodec_encode_video2: ret=" << ret << "\n";
+            break;
+        }
+        if (got_pkt) {
+            // rescale packet timestamp
+            pkt.duration = 1;
+            av_packet_rescale_ts(&pkt, vstrm->codec->time_base, vstrm->time_base);
+            // write packet
+            av_write_frame(outctx, &pkt);
+            std::cout << nb_frames << '\r' << std::flush;  // dump progress
+            ++nb_frames;
+        }
+        av_free_packet(&pkt);
 
-        const int stride[] = {static_cast<int>(image.step[0])};
-        sws_scale(swsctx, &image.data, stride, 0, image.rows, frame->data, frame->linesize);
-        frame->pts += av_rescale_q(1, out_codec_ctx->time_base, out_stream->time_base);
-        write_frame(out_codec_ctx, ofmt_ctx, frame);
-    } while (!end_of_stream);
-
-    av_write_trailer(ofmt_ctx);
+//---------------------------------------------------------------------------------------------------
+//Audio
+        if (!end_of_stream) {
+            if (av_read_frame(input_format_context, pPacket) >= 0) {
+                logging("AVPacket->pts %" PRId64, pPacket->pts);
+            }
+        }
+//---------------------------------------------------------------------------------------------------
+    } while (!end_of_stream || got_pkt);
+    av_write_trailer(outctx);
+    std::cout << nb_frames << " frames encoded" << std::endl;
 
     av_frame_free(&frame);
-    avcodec_close(out_codec_ctx);
-    avio_close(ofmt_ctx->pb);
-    avformat_free_context(ofmt_ctx);
-
+    avcodec_close(vstrm->codec);
+    avio_close(outctx->pb);
+    avformat_free_context(outctx);
     return 0;
 }
+

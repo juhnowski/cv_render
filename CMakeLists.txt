@@ -32,5 +32,6 @@ add_executable(simple_opencv_streaming main.cpp)
 # streamer
 target_link_libraries(simple_opencv_streaming ${OpenCV_LIBS} ${AVCODEC_LIBRARY} ${AVFORMAT_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY})
 
-configure_file(test.sdp test.sdp COPYONLY)
-configure_file(test_2.sdp test_2.sdp COPYONLY)
+configure_file(test_v.sdp test_v.sdp COPYONLY)
+configure_file(test_av.sdp test_av.sdp COPYONLY)
+configure_file(test_a.sdp test_a.sdp COPYONLY)

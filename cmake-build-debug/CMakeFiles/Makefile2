@@ -35,19 +35,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/ilya/clion-2019.3.4/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/ilya/clion-2019.3.5/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/ilya/clion-2019.3.4/bin/cmake/linux/bin/cmake -E remove -f
+RM = /home/ilya/clion-2019.3.5/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ilya/cv_render
+CMAKE_SOURCE_DIR = /home/ilya/CLionProjects/cv_render
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ilya/cv_render/cmake-build-debug
+CMAKE_BINARY_DIR = /home/ilya/CLionProjects/cv_render/cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -74,14 +74,14 @@ preinstall:
 CMakeFiles/simple_opencv_streaming.dir/all:
 	$(MAKE) -f CMakeFiles/simple_opencv_streaming.dir/build.make CMakeFiles/simple_opencv_streaming.dir/depend
 	$(MAKE) -f CMakeFiles/simple_opencv_streaming.dir/build.make CMakeFiles/simple_opencv_streaming.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ilya/cv_render/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target simple_opencv_streaming"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ilya/CLionProjects/cv_render/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target simple_opencv_streaming"
 .PHONY : CMakeFiles/simple_opencv_streaming.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/simple_opencv_streaming.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/cv_render/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/CLionProjects/cv_render/cmake-build-debug/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/simple_opencv_streaming.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/cv_render/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilya/CLionProjects/cv_render/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/simple_opencv_streaming.dir/rule
 
 # Convenience name for target.
