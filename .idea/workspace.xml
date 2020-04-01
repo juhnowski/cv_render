@@ -12,38 +12,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5962c11b-ce3f-4bdc-9c70-a70ceaa82bcd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/old.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/client_2.8.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/local_rtp.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/stream.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_a.sdp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeCCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeCCompiler.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeCXXCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeCXXCompiler.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeSystem.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdC/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdC/a.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdCXX/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdCXX/a.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test.sdp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test.sdp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/client.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/client.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/client_2.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/server.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/server_2.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/test.sdp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/test_2.sdp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.sdp" beforeDir="false" afterPath="$PROJECT_DIR$/test_v.sdp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_2.sdp" beforeDir="false" afterPath="$PROJECT_DIR$/test_av.sdp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +77,7 @@
       <workItem from="1585539600445" duration="855000" />
       <workItem from="1585541963432" duration="2882000" />
       <workItem from="1585596828283" duration="9610000" />
-      <workItem from="1585687002198" duration="17002000" />
+      <workItem from="1585687002198" duration="18079000" />
     </task>
     <task id="LOCAL-00001" summary="video work">
       <created>1585128028607</created>
@@ -144,7 +114,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585155505172</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add audio stream, not merged with video">
+      <created>1585711579556</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1585711579556</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -157,7 +134,8 @@
     <MESSAGE value="add *_2 sripts for video+audio rtp stream" />
     <MESSAGE value="replace video and audio ports parameter with sdp file" />
     <MESSAGE value="pre-relies" />
-    <option name="LAST_COMMIT_MESSAGE" value="pre-relies" />
+    <MESSAGE value="add audio stream, not merged with video" />
+    <option name="LAST_COMMIT_MESSAGE" value="add audio stream, not merged with video" />
   </component>
   <component name="WindowStateProjectService">
     <state x="770" y="236" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585709203472">
@@ -166,66 +144,67 @@
     <state x="120" y="71" key="#com.intellij.execution.impl.EditConfigurationsDialog/44.27.1236.773@44.27.1236.773" timestamp="1585130886015" />
     <state x="179" y="84" key="#com.intellij.execution.impl.EditConfigurationsDialog/65.24.1855.1056/1920.0.1366.768@65.24.1855.1056" timestamp="1585614867076" />
     <state x="770" y="236" key="#com.intellij.execution.impl.EditConfigurationsDialog/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585709203472" />
-    <state x="227" y="27" width="860" height="773" key="CommitChangelistDialog2" timestamp="1585155504358">
-      <screen x="44" y="27" width="1236" height="773" />
+    <state x="340" y="24" width="860" height="773" key="CommitChangelistDialog2" timestamp="1585711579476">
+      <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state x="227" y="27" width="860" height="773" key="CommitChangelistDialog2/44.27.1236.773@44.27.1236.773" timestamp="1585155504358" />
+    <state x="340" y="24" key="CommitChangelistDialog2/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585711579476" />
     <state x="1061" y="307" key="FileChooserDialogImpl" timestamp="1585705071096">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state x="1061" y="307" key="FileChooserDialogImpl/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585705071096" />
-    <state width="1126" height="198" key="GridCell.Tab.0.bottom" timestamp="1585711486236">
+    <state width="1126" height="198" key="GridCell.Tab.0.bottom" timestamp="1585712615263">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state width="1489" height="237" key="GridCell.Tab.0.bottom/1366.0.1600.900/0.132.1366.768@1366.0.1600.900" timestamp="1584620014903" />
     <state width="1190" height="202" key="GridCell.Tab.0.bottom/44.27.1236.773@44.27.1236.773" timestamp="1585159827826" />
     <state width="857" height="277" key="GridCell.Tab.0.bottom/65.24.1855.1056/1920.0.1366.768@65.24.1855.1056" timestamp="1585614844498" />
-    <state width="1126" height="198" key="GridCell.Tab.0.bottom/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585711486236" />
-    <state width="1126" height="198" key="GridCell.Tab.0.center" timestamp="1585711486235">
+    <state width="1126" height="198" key="GridCell.Tab.0.bottom/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585712615263" />
+    <state width="1126" height="198" key="GridCell.Tab.0.center" timestamp="1585712615263">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state width="1489" height="237" key="GridCell.Tab.0.center/1366.0.1600.900/0.132.1366.768@1366.0.1600.900" timestamp="1584620014903" />
     <state width="1190" height="202" key="GridCell.Tab.0.center/44.27.1236.773@44.27.1236.773" timestamp="1585159827825" />
     <state width="857" height="277" key="GridCell.Tab.0.center/65.24.1855.1056/1920.0.1366.768@65.24.1855.1056" timestamp="1585614844498" />
-    <state width="1126" height="198" key="GridCell.Tab.0.center/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585711486235" />
-    <state width="1126" height="198" key="GridCell.Tab.0.left" timestamp="1585711486235">
+    <state width="1126" height="198" key="GridCell.Tab.0.center/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585712615263" />
+    <state width="1126" height="198" key="GridCell.Tab.0.left" timestamp="1585712615263">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state width="1489" height="237" key="GridCell.Tab.0.left/1366.0.1600.900/0.132.1366.768@1366.0.1600.900" timestamp="1584620014903" />
     <state width="1190" height="202" key="GridCell.Tab.0.left/44.27.1236.773@44.27.1236.773" timestamp="1585159827824" />
     <state width="857" height="277" key="GridCell.Tab.0.left/65.24.1855.1056/1920.0.1366.768@65.24.1855.1056" timestamp="1585614844498" />
-    <state width="1126" height="198" key="GridCell.Tab.0.left/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585711486235" />
-    <state width="1126" height="198" key="GridCell.Tab.0.right" timestamp="1585711486235">
+    <state width="1126" height="198" key="GridCell.Tab.0.left/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585712615263" />
+    <state width="1126" height="198" key="GridCell.Tab.0.right" timestamp="1585712615263">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state width="1489" height="237" key="GridCell.Tab.0.right/1366.0.1600.900/0.132.1366.768@1366.0.1600.900" timestamp="1584620014903" />
     <state width="1190" height="202" key="GridCell.Tab.0.right/44.27.1236.773@44.27.1236.773" timestamp="1585159827825" />
     <state width="857" height="277" key="GridCell.Tab.0.right/65.24.1855.1056/1920.0.1366.768@65.24.1855.1056" timestamp="1585614844498" />
-    <state width="1126" height="198" key="GridCell.Tab.0.right/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585711486235" />
-    <state width="1126" height="198" key="GridCell.Tab.1.bottom" timestamp="1585711486236">
+    <state width="1126" height="198" key="GridCell.Tab.0.right/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585712615263" />
+    <state width="1126" height="198" key="GridCell.Tab.1.bottom" timestamp="1585712615263">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state width="1190" height="202" key="GridCell.Tab.1.bottom/44.27.1236.773@44.27.1236.773" timestamp="1585159827827" />
     <state width="857" height="277" key="GridCell.Tab.1.bottom/65.24.1855.1056/1920.0.1366.768@65.24.1855.1056" timestamp="1585614844499" />
-    <state width="1126" height="198" key="GridCell.Tab.1.bottom/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585711486236" />
-    <state width="1126" height="198" key="GridCell.Tab.1.center" timestamp="1585711486236">
+    <state width="1126" height="198" key="GridCell.Tab.1.bottom/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585712615263" />
+    <state width="1126" height="198" key="GridCell.Tab.1.center" timestamp="1585712615263">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state width="1190" height="202" key="GridCell.Tab.1.center/44.27.1236.773@44.27.1236.773" timestamp="1585159827826" />
     <state width="857" height="277" key="GridCell.Tab.1.center/65.24.1855.1056/1920.0.1366.768@65.24.1855.1056" timestamp="1585614844498" />
-    <state width="1126" height="198" key="GridCell.Tab.1.center/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585711486236" />
-    <state width="1126" height="198" key="GridCell.Tab.1.left" timestamp="1585711486236">
+    <state width="1126" height="198" key="GridCell.Tab.1.center/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585712615263" />
+    <state width="1126" height="198" key="GridCell.Tab.1.left" timestamp="1585712615263">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state width="1190" height="202" key="GridCell.Tab.1.left/44.27.1236.773@44.27.1236.773" timestamp="1585159827826" />
     <state width="857" height="277" key="GridCell.Tab.1.left/65.24.1855.1056/1920.0.1366.768@65.24.1855.1056" timestamp="1585614844498" />
-    <state width="1126" height="198" key="GridCell.Tab.1.left/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585711486236" />
-    <state width="1126" height="198" key="GridCell.Tab.1.right" timestamp="1585711486236">
+    <state width="1126" height="198" key="GridCell.Tab.1.left/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585712615263" />
+    <state width="1126" height="198" key="GridCell.Tab.1.right" timestamp="1585712615263">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state width="1190" height="202" key="GridCell.Tab.1.right/44.27.1236.773@44.27.1236.773" timestamp="1585159827827" />
     <state width="857" height="277" key="GridCell.Tab.1.right/65.24.1855.1056/1920.0.1366.768@65.24.1855.1056" timestamp="1585614844499" />
-    <state width="1126" height="198" key="GridCell.Tab.1.right/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585711486236" />
+    <state width="1126" height="198" key="GridCell.Tab.1.right/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585712615263" />
     <state width="1190" height="228" key="GridCell.Tab.2.bottom" timestamp="1585127091834">
       <screen x="44" y="27" width="1236" height="773" />
     </state>
@@ -242,10 +221,11 @@
       <screen x="44" y="27" width="1236" height="773" />
     </state>
     <state width="1190" height="228" key="GridCell.Tab.2.right/44.27.1236.773@44.27.1236.773" timestamp="1585127091834" />
-    <state x="257" y="149" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1585155507792">
-      <screen x="44" y="27" width="1236" height="773" />
+    <state x="385" y="191" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1585711581272">
+      <screen x="65" y="24" width="1855" height="1056" />
     </state>
     <state x="257" y="149" width="800" height="535" key="Vcs.Push.Dialog.v2/44.27.1236.773@44.27.1236.773" timestamp="1585155507792" />
+    <state x="385" y="191" key="Vcs.Push.Dialog.v2/65.24.1855.1056/1920.312.1366.768@65.24.1855.1056" timestamp="1585711581272" />
     <state x="637" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1585687003828">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>

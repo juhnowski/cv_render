@@ -15,6 +15,8 @@ extern "C" {
 using namespace std;
 using namespace cv;
 
+static int decode_packet(AVPacket *pPacket, AVCodecContext *pCodecContext, AVFrame *pFrame);
+
 static void logging(const char *fmt, ...);
 static void logging(const char *fmt, ...)
 {
@@ -49,6 +51,8 @@ int main(int argc, char* argv[])
 //-----------------------------------------------------------------------------------------------
     AVFormatContext *input_format_context = nullptr;
     AVPacket packet;
+
+    int response = 0;
 
     AVCodec *pLocalCodec = NULL;
     AVCodecParameters *pLocalCodecParameters =  NULL;
@@ -250,6 +254,12 @@ int main(int argc, char* argv[])
         if (!end_of_stream) {
             if (av_read_frame(input_format_context, pPacket) >= 0) {
                 logging("AVPacket->pts %" PRId64, pPacket->pts);
+//                response = decode_packet(pPacket, pCodecContext, pFrame);
+//                if (response < 0)
+//                    break;
+                av_packet_rescale_ts(pPacket, input_format_context->streams[0]->codec->time_base, vstrm->time_base);
+                //av_write_frame(outctx, &pkt);
+                av_interleaved_write_frame(outctx, &pkt);
             }
         }
 //---------------------------------------------------------------------------------------------------
@@ -264,3 +274,40 @@ int main(int argc, char* argv[])
     return 0;
 }
 
+static int decode_packet(AVPacket *pPacket, AVCodecContext *pCodecContext, AVFrame *pFrame)
+{
+    // Supply raw packet data as input to a decoder
+    // https://ffmpeg.org/doxygen/trunk/group__lavc__decoding.html#ga58bc4bf1e0ac59e27362597e467efff3
+    int response = avcodec_send_packet(pCodecContext, pPacket);
+
+    if (response < 0) {
+        logging("Error while sending a packet to the decoder: %s", response);
+        return response;
+    }
+
+    while (response >= 0)
+    {
+        // Return decoded output data (into a frame) from a decoder
+        // https://ffmpeg.org/doxygen/trunk/group__lavc__decoding.html#ga11e6542c4e66d3028668788a1a74217c
+        response = avcodec_receive_frame(pCodecContext, pFrame);
+        if (response == AVERROR(EAGAIN) || response == AVERROR_EOF) {
+            break;
+        } else if (response < 0) {
+            logging("Error while receiving a frame from the decoder: %s", response);
+            return response;
+        }
+
+        if (response >= 0) {
+            logging(
+                    "Frame %d (type=%c, size=%d bytes) pts %d key_frame %d [DTS %d]",
+                    pCodecContext->frame_number,
+                    av_get_picture_type_char(pFrame->pict_type),
+                    pFrame->pkt_size,
+                    pFrame->pts,
+                    pFrame->key_frame,
+                    pFrame->coded_picture_number
+            );
+        }
+    }
+    return 0;
+}
