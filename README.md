@@ -22,7 +22,7 @@ $ make
 Run
 1. Start test stream:
 ```
-server_2.sh
+scripts/local_rtp.sh
 ```
 1. Run program with parameters:
 ```

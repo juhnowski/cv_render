@@ -15,7 +15,11 @@ extern "C" {
 using namespace std;
 using namespace cv;
 
+#undef av_err2str
+#define av_err2str(errnum) av_make_error_string((char*)__builtin_alloca(AV_ERROR_MAX_STRING_SIZE), AV_ERROR_MAX_STRING_SIZE, errnum)
+
 static int decode_packet(AVPacket *pPacket, AVCodecContext *pCodecContext, AVFrame *pFrame);
+static void add_audio_stream(AVStream* astrm, AVFormatContext *oc, enum AVCodecID codec_id);
 
 static void logging(const char *fmt, ...);
 static void logging(const char *fmt, ...)
@@ -94,6 +98,8 @@ int main(int argc, char* argv[])
         logging("\tCodec %s ID %d bit_rate %lld", pLocalCodec->name, pLocalCodec->id, pLocalCodecParameters->bit_rate);
     }
 
+
+
     AVCodecContext *pCodecContext = avcodec_alloc_context3(pLocalCodec);
     if (!pCodecContext)
     {
@@ -163,10 +169,20 @@ int main(int argc, char* argv[])
     AVCodec* vcodec = avcodec_find_encoder(outctx->oformat->video_codec);
     AVStream* vstrm = avformat_new_stream(outctx, vcodec);
     if (!vstrm) {
-        std::cerr << "fail to avformat_new_stream";
+        std::cerr << "fail to avformat_new_stream for video stream";
         return 2;
     }
+
+    vstrm->id = 0;
+    outctx->streams[0] = vstrm;
+
+//create new audio stream----------------------------------------------------------------------
+    AVStream* astrm = nullptr;
+    add_audio_stream(astrm, outctx, AV_CODEC_ID_AAC );//pLocalCodecParameters->codec_id);
+//--------------------------------------------------------------------------------------------
+
     avcodec_get_context_defaults3(vstrm->codec, vcodec);
+    vstrm->codec->codec_id = outctx->oformat->video_codec;
     vstrm->codec->width = dst_width;
     vstrm->codec->height = dst_height;
     vstrm->codec->pix_fmt = vcodec->pix_fmts[0];
@@ -243,7 +259,12 @@ int main(int argc, char* argv[])
             pkt.duration = 1;
             av_packet_rescale_ts(&pkt, vstrm->codec->time_base, vstrm->time_base);
             // write packet
-            av_write_frame(outctx, &pkt);
+            pkt.stream_index = vstrm->index;
+            ret = av_write_frame(outctx, &pkt);
+            if (ret < 0) {
+                logging("Error write video frame: %s", av_err2str(ret));
+            }
+
             std::cout << nb_frames << '\r' << std::flush;  // dump progress
             ++nb_frames;
         }
@@ -254,12 +275,15 @@ int main(int argc, char* argv[])
         if (!end_of_stream) {
             if (av_read_frame(input_format_context, pPacket) >= 0) {
                 logging("AVPacket->pts %" PRId64, pPacket->pts);
-//                response = decode_packet(pPacket, pCodecContext, pFrame);
-//                if (response < 0)
-//                    break;
                 av_packet_rescale_ts(pPacket, input_format_context->streams[0]->codec->time_base, vstrm->time_base);
-                //av_write_frame(outctx, &pkt);
-                av_interleaved_write_frame(outctx, &pkt);
+
+                pPacket->stream_index = 1;
+                ret = av_write_frame(outctx, pPacket);
+                if (ret<0){
+                    logging("Error write video frame: %s", av_err2str(ret));
+                }
+
+        //        av_interleaved_write_frame(outctx, pPacket);
             }
         }
 //---------------------------------------------------------------------------------------------------
@@ -310,4 +334,46 @@ static int decode_packet(AVPacket *pPacket, AVCodecContext *pCodecContext, AVFra
         }
     }
     return 0;
+}
+
+static void add_audio_stream(AVStream* astrm, AVFormatContext *oc, enum AVCodecID codec_id) {
+    AVCodecContext *c;
+    AVCodec *codec;
+    int ret;
+    /* find the audio encoder */
+    codec = avcodec_find_encoder(codec_id);
+    if (!codec) {
+        fprintf(stderr, "codec not found\n");
+        exit(1);
+    }
+    astrm = avformat_new_stream(oc, NULL);
+    if (!astrm) {
+        fprintf(stderr, "Could not alloc stream\n");
+        exit(1);
+    }
+    astrm->id = 1;
+
+    cout << "oc->nb_streams=" << oc->nb_streams << endl;
+    c = avcodec_alloc_context3(codec);
+    if (!c) {
+        fprintf(stderr, "Could not alloc an encoding context\n");
+        exit(1);
+    }
+
+    /* put sample parameters */
+    c->sample_fmt     = codec->sample_fmts           ? codec->sample_fmts[0]           : AV_SAMPLE_FMT_S16;
+    c->sample_rate    = codec->supported_samplerates ? codec->supported_samplerates[0] : 44100;
+    c->channel_layout = codec->channel_layouts       ? codec->channel_layouts[0]       : AV_CH_LAYOUT_STEREO;
+    c->channels       = av_get_channel_layout_nb_channels(c->channel_layout);
+    c->bit_rate       = 64000;
+    c->codec_type = AVMEDIA_TYPE_AUDIO;
+//    ost->st->time_base = (AVRational){ 1, c->sample_rate };
+    // some formats want stream headers to be separate
+    if (oc->oformat->flags & AVFMT_GLOBALHEADER)
+        c->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+
+    oc->streams[1] = astrm;
+
+    astrm->codec = c;
+    return;
 }
