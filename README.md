@@ -1,7 +1,5 @@
 Before build:
-install opencv, ffmpeg, qt5
-sudo apt-get install qtbase5-dev
-sudo apt-get install qtdeclarative5-dev
+install opencv, ffmpeg
 
 To build Release:
 ```
@@ -20,11 +18,15 @@ $ make
 ```
 
 Run
+1. Download some *.mp4 file to scripts
 1. Start test stream:
-```
-scripts/local_rtp.sh
-```
+    ```
+    scripts/local_rtp.sh
+    ```
 1. Run program with parameters:
-```
-./simple_opencv_streaming 1234 1235 rtmp://gpu3.view.me/live/test890
-```
+    ```
+    ./simple_opencv_streaming 50051 50041 rtmp://gpu3.view.me/live/test890
+    ```
+   where:
+    - 50051 - audio port
+    - 50041 - video port

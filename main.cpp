@@ -1,5 +1,9 @@
 #include <iostream>
 #include <vector>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 // FFmpeg
 extern "C" {
 #include <libavformat/avformat.h>
@@ -11,6 +15,7 @@ extern "C" {
 // OpenCV
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
+#include <fstream>
 
 using namespace std;
 using namespace cv;
@@ -18,8 +23,64 @@ using namespace cv;
 #undef av_err2str
 #define av_err2str(errnum) av_make_error_string((char*)__builtin_alloca(AV_ERROR_MAX_STRING_SIZE), AV_ERROR_MAX_STRING_SIZE, errnum)
 
+struct input_t;
+struct input_t {
+    string audio;
+    string video;
+};
+
 static int decode_packet(AVPacket *pPacket, AVCodecContext *pCodecContext, AVFrame *pFrame);
 static void add_audio_stream(AVStream* astrm, AVFormatContext *oc, enum AVCodecID codec_id);
+
+static void create_sdp(char *audio_port, char *video_port, vector<input_t> &sdp_vector);
+static void create_sdp(char *audio_port, char *video_port, vector<input_t> &sdp_vector) {
+
+    int index = sdp_vector.size();
+    struct input_t input;
+    input.audio = to_string(index)+"_"+to_string(getpid())+"_a.sdp";
+    input.video = to_string(index)+"_"+to_string(getpid())+"_v.sdp";
+    const char *a_sdp= input.audio.c_str();
+    const char *v_sdp= input.video.c_str();
+
+
+    ofstream out_a(a_sdp);
+    streambuf *coutbuf = std::cout.rdbuf();
+    cout.rdbuf(out_a.rdbuf());
+
+    cout <<"v=0"<<endl;
+    cout <<"o=- 0 0 IN IP4 127.0.0.1"<<endl;
+    cout <<"s=No Name"<<endl;
+    cout <<"c=IN IP4 127.0.0.1"<<endl;
+    cout <<"t=0 0"<<endl;
+    cout <<"a=tool:libavformat 58.42.100"<<endl;
+    cout <<"m=audio "<< audio_port <<" RTP/AVP 97"<<endl;
+    cout <<"b=AS:128"<<endl;
+    cout <<"a=rtpmap:97 MPEG4-GENERIC/44100/2"<<endl;
+    cout <<"a=fmtp:97 profile-level-id=1;mode=AAC-hbr;sizelength=13;indexlength=3;indexdeltalength=3; config=121056E500"<<endl;
+    out_a.flush();
+    out_a.close();
+
+    ofstream out_v(v_sdp);
+    cout.rdbuf(out_v.rdbuf());
+
+    cout <<"v=0"<<endl;
+    cout <<"o=- 0 0 IN IP4 127.0.0.1"<<endl;
+    cout <<"s=No Name"<<endl;
+    cout <<"c=IN IP4 127.0.0.1"<<endl;
+    cout <<"t=0 0"<<endl;
+    cout <<"a=tool:libavformat 58.20.100"<<endl;
+    cout <<"m=video "<<video_port<<" RTP/AVP 96"<<endl;
+    cout <<"b=AS:405"<<endl;
+    cout <<"a=rtpmap:96 H264/90000"<<endl;
+    cout <<"a=fmtp:96 packetization-mode=1; sprop-parameter-sets=Z01AH+iAKALdgLUBAQFAAAADAEAAAAwDxgxEgA==,aOvvIA==; profile-level-id=4D401F"<<endl;
+    out_v.flush();
+    out_v.close();
+
+    sdp_vector.push_back(input);
+
+    std::cout.rdbuf(coutbuf);
+
+}
 
 static void logging(const char *fmt, ...);
 static void logging(const char *fmt, ...)
@@ -32,8 +93,24 @@ static void logging(const char *fmt, ...)
     fprintf( stderr, "\n" );
 }
 
+static void delete_sdp(int , vector<input_t> *);
+static void delete_sdp(int ret, vector<input_t> *sdp_vector) {
+    vector<input_t> *files = (vector<input_t>*)sdp_vector;
+
+    for (input_t rtp: *(vector<input_t>*)sdp_vector) {
+        remove(rtp.audio.c_str());
+        remove(rtp.video.c_str());
+    }
+}
+
+static vector<input_t> sdp_vector = {};
+
 int main(int argc, char* argv[])
 {
+
+    create_sdp(argv[1], argv[2], sdp_vector);
+    on_exit(reinterpret_cast<void (*)(int, void *)>(delete_sdp), &sdp_vector);
+
     if (argc < 2) {
         std::cout << "Usage: cv2ff <outfile>" << std::endl;
         return 1;
@@ -64,8 +141,8 @@ int main(int argc, char* argv[])
     AVDictionary *d = NULL;
     av_dict_set(&d, "protocol_whitelist", "file,udp,rtp", 0);
 
-    if ((ret = avformat_open_input(&input_format_context, argv[1], NULL, &d)) < 0) {
-        fprintf(stderr, "Could not open input file '%s'", argv[1]);
+    if ((ret = avformat_open_input(&input_format_context, ((input_t)sdp_vector.at(0)).audio.c_str(), NULL, &d)) < 0) {
+        fprintf(stderr, "Could not open input file '%s'", ((input_t)sdp_vector.at(0)).audio.c_str());
         return 2;
     }
 
@@ -136,7 +213,7 @@ int main(int argc, char* argv[])
 //------------------------------------------------------------------------------------------------
     // initialize OpenCV capture as input frame generator
 
-    cv::VideoCapture cvcap(argv[2], cv::CAP_FFMPEG);
+    cv::VideoCapture cvcap(((input_t)sdp_vector.at(0)).video, cv::CAP_FFMPEG);
     //cv::VideoCapture cvcap(argv[1]);
     if (!cvcap.isOpened()) {
         std::cerr << "fail to open cv::VideoCapture";
